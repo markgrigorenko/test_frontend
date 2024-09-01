@@ -128,12 +128,13 @@ export default {
   mounted() {
     // Проверяет текущий URL и устанавливает активное состояние кнопок в зависимости от открытого View
     const currentUrl = window.location.href
-    if (currentUrl === 'http://localhost:8080') {
-      this.isActiveMain = true
-      this.isActiveConvert = false
-    } else if (currentUrl === 'http://localhost:8080/convert') {
-      this.isActiveConvert = true
+
+    if (currentUrl.includes('convert')) {
       this.isActiveMain = false
+      this.isActiveConvert = true
+    } else {
+      this.isActiveConvert = false
+      this.isActiveMain = true
     }
   },
 }
