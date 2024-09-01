@@ -2,7 +2,7 @@
   <!-- Показываем содержимое, когда данные загружены (loading === false) -->
   <div v-if="this.loading === false" class="m-5">
     <div
-        class="stats stats-vertical lg:stats-horizontal shadow bg-slate-700 rounded-xl w-full lg:w-7/12 p-2"
+      class="stats stats-vertical lg:stats-horizontal shadow bg-slate-700 rounded-xl w-full lg:w-7/12 p-2"
     >
       <!-- Блок для отображения первой валюты -->
       <div class="stat">
@@ -68,7 +68,7 @@ export default {
     async updateCurrencies() {
       try {
         const response = await fetch(
-            'https://status.neuralgeneration.com/api/currency'
+          'https://status.neuralgeneration.com/api/currency'
         )
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`)
@@ -77,29 +77,29 @@ export default {
 
         // Фильтруем валюты, чтобы не показывать основную валюту
         this.mainCurrencies = this.mainCurrencies.filter(
-            (currency) => currency !== this.$store.state.mainCurrency
+          (currency) => currency !== this.$store.state.mainCurrency
         )
 
         // Формируем ключи для поиска данных о курсах
         let firstFieldToFind =
-            this.$store.state.mainCurrency + '-' + this.mainCurrencies[0]
+          this.$store.state.mainCurrency + '-' + this.mainCurrencies[0]
         let secondFieldToFind =
-            this.$store.state.mainCurrency + '-' + this.mainCurrencies[1]
+          this.$store.state.mainCurrency + '-' + this.mainCurrencies[1]
 
         // Устанавливаем заголовки для валют
         this.currencyFirst.title =
-            '1' + this.$store.state.mainCurrency.toUpperCase() + '≈'
+          '1' + this.$store.state.mainCurrency.toUpperCase() + '≈'
         this.currencySecond.title =
-            '1' + this.$store.state.mainCurrency.toUpperCase() + '≈'
+          '1' + this.$store.state.mainCurrency.toUpperCase() + '≈'
 
         // Получаем результаты для первой и второй валют
         let firstCurrencyResult = this.findCurrencyValue(
-            this.data,
-            firstFieldToFind
+          this.data,
+          firstFieldToFind
         )
         let secondCurrencyResult = this.findCurrencyValue(
-            this.data,
-            secondFieldToFind
+          this.data,
+          secondFieldToFind
         )
 
         // Округляем значения до двух знаков после запятой (если нужно)
@@ -113,9 +113,9 @@ export default {
 
         // Обновляем значения валют
         this.currencyFirst.value =
-            firstCurrencyResult + this.mainCurrencies[0].toUpperCase()
+          firstCurrencyResult + this.mainCurrencies[0].toUpperCase()
         this.currencySecond.value =
-            secondCurrencyResult + this.mainCurrencies[1].toUpperCase()
+          secondCurrencyResult + this.mainCurrencies[1].toUpperCase()
 
         // Восстанавливаем основной список валют
         this.mainCurrencies = ['usd', 'rub', 'eur']
@@ -135,5 +135,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

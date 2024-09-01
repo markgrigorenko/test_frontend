@@ -5,11 +5,11 @@
         <!-- Кнопка для ссылки на GitHub автора 👋 -->
         <div>
           <a
-              class="btn btn-neutral hidden md:flex md:text-xl"
-              href="https://github.com/markgrigorenko"
-              target="_blank"
-              rel="noopener noreferrer"
-          >Конвертация</a
+            class="btn btn-neutral hidden md:flex md:text-xl"
+            href="https://github.com/markgrigorenko"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Конвертация</a
           >
         </div>
 
@@ -17,21 +17,21 @@
         <div class="">
           <div class="join">
             <button
-                :class="[
+              :class="[
                 'btn join-item',
                 isActiveMain ? 'btn-primary' : 'btn-neutral',
               ]"
-                @click="toggleActiveMain"
+              @click="toggleActiveMain"
             >
               Главная
             </button>
 
             <button
-                :class="[
+              :class="[
                 'btn join-item',
                 isActiveConvert ? 'btn-primary' : 'btn-neutral',
               ]"
-                @click="toggleActiveConvert"
+              @click="toggleActiveConvert"
             >
               Конвертация
             </button>
@@ -45,32 +45,32 @@
             <button @click="toggleDropdown" class="btn btn-neutral">
               {{ selectedCurrency }}
               <svg
-                  class="w-4 h-4 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
                 ></path>
               </svg>
             </button>
             <!-- Выпадающее меню -->
             <div
-                v-if="isOpen"
-                class="absolute right-0 mt-2 w-48 bg-neutral border-gray-300 rounded-md shadow-lg"
+              v-if="isOpen"
+              class="absolute right-0 mt-2 w-48 bg-neutral border-gray-300 rounded-md shadow-lg"
             >
               <ul class="py-1">
                 <!-- Список валют -->
                 <li
-                    v-for="currency in currencies"
-                    :key="currency"
-                    class="cursor-pointer text-white px-4 py-2 hover:bg-primary"
-                    @click="selectCurrency(currency)"
+                  v-for="currency in currencies"
+                  :key="currency"
+                  class="cursor-pointer text-white px-4 py-2 hover:bg-primary"
+                  @click="selectCurrency(currency)"
                 >
                   {{ currency }}
                 </li>
@@ -149,5 +149,4 @@ export default {
 }
 </style>
 
-<script setup>
-</script>
+<script setup></script>

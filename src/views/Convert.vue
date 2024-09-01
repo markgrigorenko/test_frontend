@@ -2,30 +2,30 @@
   <div class="flex justify-center m-5">
     <!-- Отображается, если данные загружены (loading === false) -->
     <div
-        v-if="this.loading === false"
-        class="bg-slate-700 p-4 rounded-xl w-full lg:w-7/12 flex justify-center"
+      v-if="this.loading === false"
+      class="bg-slate-700 p-4 rounded-xl w-full lg:w-7/12 flex justify-center"
     >
       <div class="mb-4">
         <!-- Первая группа элементов для ввода суммы и выбора валюты -->
         <div class="flex items-center mb-3 join">
           <!-- Поле ввода суммы для первой валюты -->
           <input
-              v-model.number="amount1"
-              @input="onAmount1Change"
-              type="number"
-              class="input input-bordered input-primary w-full md:max-w-xs join-item text-white"
+            v-model.number="amount1"
+            @input="onAmount1Change"
+            type="number"
+            class="input input-bordered input-primary w-full md:max-w-xs join-item text-white"
           />
           <!-- Выпадающий список для выбора первой валюты -->
           <select
-              v-model="selectedCurrency1"
-              @change="convertAmount"
-              class="select text-white select-bordered select-primary w-full md:max-w-xs mr-2 join-item"
+            v-model="selectedCurrency1"
+            @change="convertAmount"
+            class="select text-white select-bordered select-primary w-full md:max-w-xs mr-2 join-item"
           >
             <!-- Опции валют, отображаемые в выпадающем списке -->
             <option
-                v-for="currency in currencies"
-                :key="currency.code"
-                :value="currency.code"
+              v-for="currency in currencies"
+              :key="currency.code"
+              :value="currency.code"
             >
               {{ currency.name }}
             </option>
@@ -36,22 +36,22 @@
         <div class="flex items-center join">
           <!-- Поле ввода суммы для второй валюты -->
           <input
-              v-model.number="amount2"
-              @input="onAmount2Change"
-              type="number"
-              class="input input-bordered input-primary w-full md:max-w-xs join-item text-white"
+            v-model.number="amount2"
+            @input="onAmount2Change"
+            type="number"
+            class="input input-bordered input-primary w-full md:max-w-xs join-item text-white"
           />
           <!-- Выпадающий список для выбора второй валюты -->
           <select
-              v-model="selectedCurrency2"
-              @change="convertAmount"
-              class="select text-white select-bordered select-primary w-full md:max-w-xs mr-2 join-item"
+            v-model="selectedCurrency2"
+            @change="convertAmount"
+            class="select text-white select-bordered select-primary w-full md:max-w-xs mr-2 join-item"
           >
             <!-- Опции валют, отображаемые в выпадающем списке -->
             <option
-                v-for="currency in currencies"
-                :key="currency.code"
-                :value="currency.code"
+              v-for="currency in currencies"
+              :key="currency.code"
+              :value="currency.code"
             >
               {{ currency.name }}
             </option>
@@ -104,7 +104,7 @@ export default {
     async updateCurrencies() {
       try {
         const response = await fetch(
-            'https://api.exchangerate-api.com/v4/latest/USD'
+          'https://api.exchangerate-api.com/v4/latest/USD'
         )
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`)
@@ -131,11 +131,11 @@ export default {
     // Конвертирует суммы между двумя валютами
     convertAmount() {
       const currency1 = this.currencies.find(
-          (c) => c.code === this.selectedCurrency1
+        (c) => c.code === this.selectedCurrency1
       )
 
       const currency2 = this.currencies.find(
-          (c) => c.code === this.selectedCurrency2
+        (c) => c.code === this.selectedCurrency2
       )
 
       if (currency1 && currency2) {
@@ -149,14 +149,14 @@ export default {
 
         // Ограничиваем количество знаков после запятой до двух
         if (
-            this.amount1.toString().split('.')[1]?.length > 2 &&
-            this.amount1.toString().split('.')[1]?.length !== 0
+          this.amount1.toString().split('.')[1]?.length > 2 &&
+          this.amount1.toString().split('.')[1]?.length !== 0
         ) {
           this.amount1 = this.amount1.toFixed(2)
         }
         if (
-            this.amount2.toString().split('.')[1]?.length > 2 &&
-            this.amount2.toString().split('.')[1]?.length !== 0
+          this.amount2.toString().split('.')[1]?.length > 2 &&
+          this.amount2.toString().split('.')[1]?.length !== 0
         ) {
           this.amount2 = this.amount2.toFixed(2)
         }
@@ -182,5 +182,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
