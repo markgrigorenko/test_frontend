@@ -6,14 +6,14 @@
     >
       <!-- Блок для отображения первой валюты -->
       <div class="stat">
-        <div class="stat-title">{{ this.currencyFirst.title }}</div>
-        <div class="stat-value">{{ this.currencyFirst.value }}</div>
+        <div class="stat-title text-gray-400">{{ this.currencyFirst.title }}</div>
+        <div class="stat-value text-gray-400">{{ this.currencyFirst.value }}</div>
       </div>
 
       <!-- Блок для отображения второй валюты -->
       <div class="stat">
-        <div class="stat-title">{{ this.currencySecond.title }}</div>
-        <div class="stat-value">{{ this.currencySecond.value }}</div>
+        <div class="stat-title text-gray-400">{{ this.currencySecond.title }}</div>
+        <div class="stat-value text-gray-400">{{ this.currencySecond.value }}</div>
       </div>
     </div>
   </div>
