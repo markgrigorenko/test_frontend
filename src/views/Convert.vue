@@ -13,13 +13,13 @@
             v-model.number="amount1"
             @input="onAmount1Change"
             type="number"
-            class="input input-bordered input-primary w-full md:max-w-xs join-item text-white"
+            class="input input-bordered bg-neutral input-primary w-full md:max-w-xs join-item text-white"
           />
           <!-- Выпадающий список для выбора первой валюты -->
           <select
             v-model="selectedCurrency1"
             @change="convertAmount"
-            class="select text-white select-bordered select-primary w-full md:max-w-xs mr-2 join-item"
+            class="select text-white bg-neutral select-bordered select-primary w-full md:max-w-xs mr-2 join-item"
           >
             <!-- Опции валют, отображаемые в выпадающем списке -->
             <option
@@ -39,13 +39,13 @@
             v-model.number="amount2"
             @input="onAmount2Change"
             type="number"
-            class="input input-bordered input-primary w-full md:max-w-xs join-item text-white"
+            class="input bg-neutral input-bordered input-primary w-full md:max-w-xs join-item text-white"
           />
           <!-- Выпадающий список для выбора второй валюты -->
           <select
             v-model="selectedCurrency2"
             @change="convertAmount"
-            class="select text-white select-bordered select-primary w-full md:max-w-xs mr-2 join-item"
+            class="select text-white bg-neutral select-bordered select-primary w-full md:max-w-xs mr-2 join-item"
           >
             <!-- Опции валют, отображаемые в выпадающем списке -->
             <option
