@@ -1,98 +1,79 @@
 <template>
-  <!-- Показываем содержимое, когда данные загружены (loading === false) -->
-  <div v-if="this.loading === false" class="m-5">
-    <div
-      class="stats stats-vertical lg:stats-horizontal shadow bg-slate-700 rounded-xl w-full lg:w-7/12 p-2"
-    >
-      <!-- Блок для отображения первой валюты -->
-      <div class="stat">
-        <div class="stat-title text-gray-400">{{ this.currencyFirst.title }}</div>
-        <div class="stat-value text-gray-400">{{ this.currencyFirst.value }}</div>
-      </div>
-
-      <!-- Блок для отображения второй валюты -->
-      <div class="stat">
-        <div class="stat-title text-gray-400">{{ this.currencySecond.title }}</div>
-        <div class="stat-value text-gray-400">{{ this.currencySecond.value }}</div>
+  <div>
+    <div v-if="!loading" class="m-5">
+      <div
+        class="stats stats-vertical lg:stats-horizontal shadow bg-slate-700 rounded-xl w-full lg:w-7/12 p-2"
+      >
+        <CurrencyStats
+          v-for="(currency, index) in currencies"
+          :key="index"
+          :title="currency.title"
+          :value="currency.value"
+        />
       </div>
     </div>
-  </div>
-
-  <!-- Показываем лоадер, пока данные загружаются -->
-  <div v-else>
-    <span class="loading loading-spinner loading-lg"></span>
+    <LoadingSpinner v-if="loading" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import CurrencyStats from '@/components/CurrencyStats.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
+import { fetchCurrencyData } from '@/api/currencyService'
 
 export default {
   name: 'HomeView',
-  components: {},
+  components: { CurrencyStats, LoadingSpinner },
   computed: {
-    // Подключаем состояние mainCurrency из Vuex
     ...mapState(['mainCurrency']),
   },
   watch: {
-    // Наблюдаем за изменениями mainCurrency и вызываем updateCurrencies при изменении
     mainCurrency: {
       handler() {
         this.loading = true
         void this.updateCurrencies()
       },
-      immediate: true, // Запускаем обработчик при первом рендере
+      immediate: true, // Trigger the handler on the first render.
     },
   },
   data() {
     return {
-      // Список валют для отображения
       mainCurrencies: ['usd', 'rub', 'eur'],
-      // Информация о первой и второй валюте для отображения
-      currencyFirst: { value: 0, title: null },
-      currencySecond: { value: 0, title: null },
-      // Состояние загрузки данных
+      currencies: [
+        { value: 0, title: null },
+        { value: 0, title: null },
+      ],
       loading: true,
-      // Данные и ошибки
       data: null,
       error: null,
     }
   },
   methods: {
-    // Находит значение валюты по ключу
     findCurrencyValue(currencies, key) {
       return currencies[key] !== undefined ? currencies[key] : null
     },
-
-    // Асинхронно обновляет курсы валют
     async updateCurrencies() {
       try {
-        const response = await fetch(
-          'https://status.neuralgeneration.com/api/currency'
-        )
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`)
-        }
-        this.data = await response.json()
+        this.data = await fetchCurrencyData()
 
-        // Фильтруем валюты, чтобы не показывать основную валюту
+        // Filter currencies to hide the base currency
         this.mainCurrencies = this.mainCurrencies.filter(
           (currency) => currency !== this.$store.state.mainCurrency
         )
 
-        // Формируем ключи для поиска данных о курсах
+        // Generate keys for retrieving exchange rate data.
         let firstFieldToFind =
           this.$store.state.mainCurrency + '-' + this.mainCurrencies[0]
         let secondFieldToFind =
           this.$store.state.mainCurrency + '-' + this.mainCurrencies[1]
 
-        // Устанавливаем заголовки для валют
-        this.currencyFirst.title =
+        // Set headers for currencies
+        this.currencies[0].title =
           '1' + this.$store.state.mainCurrency.toUpperCase() + '≈'
-        this.currencySecond.title =
+        this.currencies[1].title =
           '1' + this.$store.state.mainCurrency.toUpperCase() + '≈'
 
-        // Получаем результаты для первой и второй валют
         let firstCurrencyResult = this.findCurrencyValue(
           this.data,
           firstFieldToFind
@@ -102,7 +83,7 @@ export default {
           secondFieldToFind
         )
 
-        // Округляем значения до двух знаков после запятой (если нужно)
+        // Limit the number of decimal places to two
         if (firstCurrencyResult.toString().split('.')[1]?.length > 2) {
           firstCurrencyResult = firstCurrencyResult.toFixed(2)
         }
@@ -111,25 +92,22 @@ export default {
           secondCurrencyResult = secondCurrencyResult.toFixed(2)
         }
 
-        // Обновляем значения валют
-        this.currencyFirst.value =
+        this.currencies[0].value =
           firstCurrencyResult + this.mainCurrencies[0].toUpperCase()
-        this.currencySecond.value =
+        this.currencies[1].value =
           secondCurrencyResult + this.mainCurrencies[1].toUpperCase()
 
-        // Восстанавливаем основной список валют
+        // Restore the main list of currencies
         this.mainCurrencies = ['usd', 'rub', 'eur']
       } catch (err) {
-        // Обработка ошибок
         this.error = err.message
+        console.log(this.error)
       } finally {
-        // Завершение загрузки данных
         this.loading = false
       }
     },
   },
   mounted() {
-    // Вызываем метод обновления валют при монтировании компонента
     void this.updateCurrencies()
   },
 }
